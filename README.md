@@ -64,7 +64,7 @@ Developer API tests examine the system from the perspective of a developer. When
 
 ## Unit Tests: Realtime Developer Feedback
 
-Unit tests ensure that individual components work in isolation from each other.
+Unit tests ensure that individual components work in isolation from each other. Units are typically modules, functions, etc...
 
 For example, your app may need to route URLs to route handlers. A unit test may be written against the URL parser to ensure that the relevant components of the URL are parsed correctly. Another unit test might ensure that the router calls the correct handler for a given URL.
 
@@ -73,7 +73,6 @@ However, if you want to test that when a specific URL is posted to, a correspond
 Unit tests are frequently used as a developer feedback mechanism during development. For example, I run lint and unit tests on every file change and monitor the results in a development console which gives me real-time feedback as I’m working.
 
 ![Running tests on file change](images/dev-console-animated.gif)
-
 
 For this to work well, unit tests must run very quickly, which means that asynchronous operations such as network and file I/O should be avoided in unit tests.
 
@@ -86,7 +85,7 @@ Unit tests should be:
 * Lightning fast.
 * A good bug report.
 
-What do I mean by “a good bug report?”
+What do I mean by "a good bug report?"
 
 I mean that whatever test runner and assertion library you use, a failing unit test should tell you at a glance:
 
@@ -142,35 +141,73 @@ test('hash', function (t) {
 });
 ```
 
+## Integration Tests
+
+Integration tests ensure that various units work together correctly. For example, a user registration workflow might require your client app to connect to your server app to save user data. You might write an integration test that uses the client SDK API to connect to the server API and save the user record. The test would then check the user database to ensure that the user record was actually saved correctly.
+
 
 ## Functional Tests
 
 Functional tests are automated tests which ensure that your application does what it’s supposed to do from the point of view of the user. Functional tests feed input to the user interface, and make assertions about the output that ensure that the software responds the way it should.
 
-Functional tests are sometimes called “end to end” tests because they test the entire application, and it’s hardware and networking infrastructure, from the front end UI to the back end database systems. In that sense, functional tests are also a form of integration testing, ensuring that machines and component collaborations are working as expected.
+Functional tests are sometimes called end-to-end tests because they test the entire application, and it’s hardware and networking infrastructure, from the front end UI to the back end database systems. In that sense, functional tests are also a form of integration testing, ensuring that machines and component collaborations are working as expected.
 
-Functional tests typically have thorough tests for “happy paths” — ensuring the critical app capabilities, such as user logins, signups, purchase work flows, and all the critical user workflows all behave as expected.
+Functional tests typically have thorough tests for "happy paths" -- ensuring the critical app capabilities, such as user logins, signups, purchase work flows, and all the critical user workflows all behave as expected.
+
+Functional tests should be able to run in the cloud on services such as [Sauce Labs](https://saucelabs.com/), which typically use the [WebDriver API](https://www.w3.org/TR/2016/WD-webdriver-20160120/) via projects like Selenium.
+
+That takes a bit of juggling. Luckily, there are some great open source projects that make it fairly easy.
+
+My favorite is [Nightwatch.js](http://nightwatchjs.org/). Here's what a simple Nightwatch functional test suite looks like:
+
+```js
+module.exports = {
+  'Demo test Google' : function (browser) {
+    browser
+      .url('http://www.google.com')
+      .waitForElementVisible('body', 1000)
+      .setValue('input[type=text]', 'nightwatch')
+      .waitForElementVisible('button[name=btnG]', 1000)
+      .click('button[name=btnG]')
+      .pause(1000)
+      .assert.containsText('#main', 'Night Watch')
+      .end();
+  }
+};
+```
 
 
+## What is Continuous Delivery?
+
+Prior to the continuous delivery revolution, software was released using a waterfall process. Software would go through the following steps, one at a time. Each step had to be completed before moving on to the next:
+
+1. Requirement Gathering
+1. Design
+1. Implementation
+1. Verification
+1. Deployment
+1. Maintenance
+
+It's called waterfall because if you chart it with time running from right to left, it looks like a waterfall cascading from one task to the next. In other words, in theory, you can't really do these things concurrently.
+
+In theory. In reality, a lot of project scope is discovered as the project is being developed, and scope creep often leads to disastrous project delays and rework. Inevitably, the business team will also want "simple changes" made after delivery without going through the whole expensive, time-consuming waterfall process again, which frequently results in an endless cycle of change management meetings and production hot fixes.
+
+A clean waterfall process is probably a myth. I've had a long career and consulted with hundreds of companies, and I've never seen the theoretical waterfall work the way it's supposed to in real life. Typical waterfall release cycles can take months or years.
 
 
-Unit Tests Unit tests ensure that individual software “units” (typically modules, functions, etc…) work as expected. Unit tests test components in isolation from each other, outside the context of the running application. Unit tests typically do not
-
-What is Continuous Delivery? Prior to the continuous delivery revolution, software was released using a waterfall process. Software would go through the following steps, one at a time. Each step had to be completed before moving on to the next:
-
-Requirement Gathering
-Design
-Implementation
-Verification
-Deployment
-Maintenance
-
-That was the theory. In reality, a lot of project scope is discovered as the project is being developed, and scope creep often leads to disastrous project delays and rework. Inevitably, the business team will also want “simple changes” made after delivery without going through the whole expensive, time-consuming waterfall process again, which frequently results in an endless cycle of “change management” meetings and production hot fixes.
-
-Typical waterfall release cycles can take months or years.
-
-Continuous Delivery 
+## Continuous Delivery 
 
 Continuous delivery is a development methodology that acknowledges that scope is uncovered as the project progresses, and encourages incremental improvements to software in short cycles that ensure that software can be released at any time without causing problems.
 
 With continuous delivery, changes can ship safely in a matter of hours.
+
+In contrast to the waterfall method, I've seen the continuous delivery process running smoothly at dozens of organizations -- but I've never seen it work anywhere without a quality array of test suites that includes both unit tests and functional tests, and frequently includes integration tests, as well.
+
+Hopefully now you have everything you need to get started on your continuous delivery foundations.
+
+
+## Author Bio
+
+**Eric Elliott** is the author of ["Programming JavaScript Applications"](pjabook.com) (O’Reilly). He has contributed to software experiences for Adobe Systems, Zumba Fitness, The Wall Street Journal, ESPN, BBC, and top recording artists including Usher, Frank Ocean, Metallica, and many more.
+
+He spends most of his time in the San Francisco Bay Area with the most beautiful woman in the world.
