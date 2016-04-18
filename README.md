@@ -158,7 +158,7 @@ Functional tests should be able to run in the cloud on services such as [Sauce L
 
 That takes a bit of juggling. Luckily, there are some great open source projects that make it fairly easy.
 
-My favorite is [Nightwatch.js](http://nightwatchjs.org/). Here's what a simple Nightwatch functional test suite looks like:
+My favorite is [Nightwatch.js](http://nightwatchjs.org/). Here's what a simple Nightwatch functional test suite looks like this example from the Nightwatch docs:
 
 ```js
 module.exports = {
