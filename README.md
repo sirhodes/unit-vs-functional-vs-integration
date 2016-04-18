@@ -53,8 +53,8 @@ Which Test Types Should You Use? All of Them.
 
 In order to understand how different tests fit in your software development process, you need to understand that each kind of test has a job to do, and those tests roughly fall into three broad categories:
 
-* User Experience Tests (end user experience)
-* Developer API Tests (developer experience)
+* User experience tests (end user experience)
+* Developer API tests (developer experience)
 * Infrastructure tests (load tests, network integration tests, etc...)
 
 User experience tests examine the system from the perspective of the user, using the actual user interface, typically using the target platforms or devices.
@@ -181,7 +181,7 @@ module.exports = {
 
 Prior to the continuous delivery revolution, software was released using a waterfall process. Software would go through the following steps, one at a time. Each step had to be completed before moving on to the next:
 
-1. Requirement Gathering
+1. Requirement gathering
 1. Design
 1. Implementation
 1. Verification
