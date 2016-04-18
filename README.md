@@ -195,7 +195,7 @@ In theory. In reality, a lot of project scope is discovered as the project is be
 A clean waterfall process is probably a myth. I've had a long career and consulted with hundreds of companies, and I've never seen the theoretical waterfall work the way it's supposed to in real life. Typical waterfall release cycles can take months or years.
 
 
-## Continuous Delivery 
+## The Continuous Delivery Solution
 
 Continuous delivery is a development methodology that acknowledges that scope is uncovered as the project progresses, and encourages incremental improvements to software in short cycles that ensure that software can be released at any time without causing problems.
 
